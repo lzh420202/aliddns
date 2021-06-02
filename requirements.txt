@@ -1,0 +1,4 @@
+aliyun-python-sdk-core
+aliyun-python-sdk-domain
+aliyun-python-sdk-alidns
+Pyyaml

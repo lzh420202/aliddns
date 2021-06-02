@@ -1,0 +1,18 @@
+alidns:
+  DomainName: xidian-ai-intranet.top
+  id: xxxxxxxxxxxxxxxxx
+  password: xxxxxxxxxxxxxxxxxxx
+  regionId: cn-hangzhou
+  ttl: 600
+  type: A
+internet:
+  url: http://www.3322.org/dyndns/getip
+ip_interface: router
+router:
+  type: tplink
+  ip: 192.168.1.1
+  password: xxxxxxxxxx
+  username: NULL
+wan:
+  ip: 8.8.8.8
+  port: 80

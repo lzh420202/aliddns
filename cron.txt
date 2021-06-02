@@ -1,0 +1,1 @@
+*/5 * * * * python3 fullpath_to_script.py
