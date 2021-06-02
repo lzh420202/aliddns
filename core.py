@@ -74,14 +74,14 @@ class TPLinkRouter():
     def post_tp_link(self, payload, stok):
         headers = {'Content-Type': 'application/json; charset=UTF-8'}
         url = 'http://{}/stok={}/ds'.format(self.ip, stok)
-        response = requests.post(url, data=payload, headers=headers)
+        response = requests.post(url, data=payload, headers=headers, timeout=1)
         return response
     def login(self):
         encryptPwd = self.encrypt_pwd()
         url = 'http://{}/'.format(self.ip)
         headers = {'Content-Type': 'application/json; charset=UTF-8'}
         payload = '{"method":"do","login":{"password":"%s"}}' % encryptPwd
-        response = requests.post(url, data=payload, headers=headers)
+        response = requests.post(url, data=payload, headers=headers, timeout=1)
         stok = json.loads(response.text)['stok']
         return stok
     
@@ -96,12 +96,12 @@ class TPLinkRouter():
             response = self.post_tp_link(payload, stok)
             data = json.loads(response.text)
             if data['network']['wan_status']['link_status'] == 1:
-                ip=data['network']['wan_status']['ipaddr']
+                ip = data['network']['wan_status']['ipaddr']
             else:
-                ip=None
+                ip = None
             self.logout(stok)
         except:
-            ip=None
+            ip = None
         return ip
 
 
@@ -302,7 +302,10 @@ class DDNS(aliyunAccount, routerConfig):
             # 正常不应该有多条相同的记录，如果存在这种情况，应该手动去网站检查核实是否有操作失误
             print("存在多个相同子域名解析记录值，请核查删除后再操作！")
 
+
 import yaml
+LOAD_MAX_TIMES = 10
+
 
 def iniConfig():
     cfg = {}
@@ -323,12 +326,19 @@ def iniConfig():
     with open('./config.yaml', 'w', encoding='utf-8') as f:
         yaml.dump(cfg, f)
 
+
 def loadConfig():
-    try:
-        with open('./config.yaml', 'r', encoding='utf-8') as f:
-            cfg = yaml.load(f, Loader=yaml.FullLoader)
-    except:
-        iniConfig()
-        loadConfig()
+    global LOAD_MAX_TIMES
+    LOAD_MAX_TIMES = LOAD_MAX_TIMES - 1
+    if LOAD_MAX_TIMES >= 0:
+        try:
+            with open('./config.yaml', 'r', encoding='utf-8') as f:
+                cfg = yaml.load(f, Loader=yaml.FullLoader)
+        except:
+            print("加载参数文件出错，重新生成默认参数文件。剩余尝试次数{}".format(LOAD_MAX_TIMES))
+            iniConfig()
+            cfg = loadConfig()
+    else:
+        cfg = None
     return cfg
 

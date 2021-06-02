@@ -2,6 +2,11 @@
 
 配合TPLINK的阿里DDNS脚本，无需破解刷机TPLINK路由器，采用POST方法登录路由器管理并获取网络信息包来得到路由器WAN口IP地址。
 
+### 安装
+```shell
+pip3 install -r requirements.txt
+```
+
 ### 使用方法
 程序为python脚本，只要安装了阿里sdk和pyyaml库就可以使用，基本需求为python3。
 
