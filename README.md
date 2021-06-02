@@ -1,0 +1,3 @@
+# aliddns
+
+配合TPLINK的阿里DDNS脚本，无需破解刷机TPLINK路由器，采用POST方法登录路由器管理并获取网络信息包来得到路由器WAN口IP地址。
