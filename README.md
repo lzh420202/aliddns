@@ -16,7 +16,7 @@ pip3 install -r requirements.txt
 程序运行参数放置在config.yaml文件中，主要字段如下：
 ```yaml
 alidns:
-  DomainName: xidian-ai-intranet.top
+  DomainName: xxxxxxxxxxxx
   id: xxxxxxxxxxxxxxxxx                         #阿里云的AccessKey ID
   password: xxxxxxxxxxxxxxxxxxx                 #阿里云的AccessKey 密码
   regionId: cn-hangzhou                         #阿里云的区域代码
