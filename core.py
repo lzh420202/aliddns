@@ -13,7 +13,7 @@ from aliyunsdkcore.acs_exception.exceptions import ServerException
 from aliyunsdkalidns.request.v20150109 import DescribeSubDomainRecordsRequest, AddDomainRecordRequest, UpdateDomainRecordRequest, DeleteDomainRecordRequest
 
 # 加载内置模块
-import json, urllib, socket, requests, base64, re
+import json, urllib, socket, requests, base64, re, os
 from aliyunsdkcore.vendored.six import with_metaclass
 
 class aliyunAccount():
@@ -307,7 +307,7 @@ import yaml
 LOAD_MAX_TIMES = 10
 
 
-def iniConfig():
+def iniConfig(folder='.'):
     cfg = {}
     cfg['alidns'] = {'regionId': 'cn-hangzhou',
                      'id': 'xxxxxxxxxxxxxx',
@@ -323,21 +323,21 @@ def iniConfig():
                   'port': 80}
     cfg['internet'] = {'url': 'http://www.3322.org/dyndns/getip'}
     cfg['ip_interface'] = 'router'
-    with open('./config.yaml', 'w', encoding='utf-8') as f:
+    with open(os.path.join(folder, 'config.yaml'), 'w', encoding='utf-8') as f:
         yaml.dump(cfg, f)
 
 
-def loadConfig():
+def loadConfig(folder='.'):
     global LOAD_MAX_TIMES
     LOAD_MAX_TIMES = LOAD_MAX_TIMES - 1
     if LOAD_MAX_TIMES >= 0:
         try:
-            with open('./config.yaml', 'r', encoding='utf-8') as f:
+            with open(os.path.join(folder, 'config.yaml'), 'r', encoding='utf-8') as f:
                 cfg = yaml.load(f, Loader=yaml.FullLoader)
         except:
             print("加载参数文件出错，重新生成默认参数文件。剩余尝试次数{}".format(LOAD_MAX_TIMES))
             iniConfig()
-            cfg = loadConfig()
+            cfg = loadConfig(folder)
     else:
         cfg = None
     return cfg
